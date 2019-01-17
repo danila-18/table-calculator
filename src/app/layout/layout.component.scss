@@ -1,0 +1,17 @@
+.menu {
+  margin: 0;
+  padding: 0;
+  li {
+    list-style-type: none;
+    padding: 15px 35px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    &:hover {
+      background: #dfdfdf;
+    }
+  }
+}
+
+mat-sidenav-content {
+  min-height: 200px;
+}
