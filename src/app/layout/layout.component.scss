@@ -6,12 +6,21 @@
     padding: 15px 35px;
     cursor: pointer;
     transition: all .3s ease-in-out;
+    font-weight: bold;
     &:hover {
-      background: #dfdfdf;
+      background: #ccc;
     }
   }
 }
 
 mat-sidenav-content {
   min-height: 200px;
+}
+
+mat-icon {
+  margin: 0 10px;
+}
+
+.active {
+  background: #dfdfdf;
 }

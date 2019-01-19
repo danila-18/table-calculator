@@ -1,15 +1,14 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Second Line</span>
-    <span class="example-spacer"></span>
-    <mat-icon class="example-icon">verified_user</mat-icon>
+    <mat-icon class="example-icon">dvr</mat-icon>
+    <span>Table Calculator</span>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container class="example-container">
 
   <mat-sidenav #sidenav mode="side" [(opened)]="opened">
     <ul class="menu">
-      <li *ngFor="let menuItem of menu" [routerLink]="menuItem.route">{{ menuItem.title }}</li>
+      <li *ngFor="let menuItem of menu" routerLinkActive="active" [routerLink]="menuItem.route">{{ menuItem.title }}</li>
     </ul>
   </mat-sidenav>
 
