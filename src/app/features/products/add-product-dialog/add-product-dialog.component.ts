@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {IProduct} from '../products.component';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-add-product-dialog',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddProductDialogComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup = new FormGroup({
+    id: new FormControl(),
+    title: new FormControl(),
+    price: new FormControl(),
+    weight: new FormControl(),
+  });
+
+  constructor(public dialogRef: MatDialogRef<AddProductDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: IProduct,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    if (this.data) {
+      this.form.patchValue(this.data);
+    }
   }
 
 }

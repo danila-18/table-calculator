@@ -1,24 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {IColumn} from '../dishes/dishes.component';
+import {AddProductDialogComponent} from './add-product-dialog/add-product-dialog.component';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatTable} from '@angular/material';
 
 export interface IProduct {
-  product_id: number;
-  name: string;
+  id: number;
+  title: string;
   price: number;
   weight: number;
 }
 
 export const PRODUCT_DATA: IProduct[] = [
-  {product_id: 1, price: 1, name: 'Hydrogen', weight: 1.0079},
-  {product_id: 2, price: 2, name: 'Helium', weight: 4.0026},
-  {product_id: 3, price: 3, name: 'Lithium', weight: 6.941},
-  {product_id: 4, price: 4, name: 'Beryllium', weight: 9.0122},
-  {product_id: 5, price: 5, name: 'Boron', weight: 10.811},
-  {product_id: 6, price: 6, name: 'Carbon', weight: 12.0107},
-  {product_id: 7, price: 7, name: 'Nitrogen', weight: 14.0067},
-  {product_id: 8, price: 8, name: 'Oxygen', weight: 15.9994},
-  {product_id: 9, price: 9, name: 'Fluorine', weight: 18.9984},
-  {product_id: 10, price: 10, name: 'Neon', weight: 20.1797},
+  {id: 1, price: 1, title: 'Hydrogen', weight: 1.0079},
+  {id: 2, price: 2, title: 'Helium', weight: 4.0026},
+  {id: 3, price: 3, title: 'Lithium', weight: 6.941},
+  {id: 4, price: 4, title: 'Beryllium', weight: 9.0122},
+  {id: 5, price: 5, title: 'Boron', weight: 10.811},
+  {id: 6, price: 6, title: 'Carbon', weight: 12.0107},
+  {id: 7, price: 7, title: 'Nitrogen', weight: 14.0067},
 ];
 
 @Component({
@@ -35,7 +34,7 @@ export class ProductsComponent implements OnInit {
       colTitle: 'Цена'
     },
     {
-      colName: 'name',
+      colName: 'title',
       colTitle: 'Наименование'
     },
     {
@@ -44,24 +43,40 @@ export class ProductsComponent implements OnInit {
     }
   ];
   colNames = [...this.columns.map(col => col.colName), 'delete'];
+  @ViewChild('table') table: MatTable<IProduct>;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
     this.tableData = PRODUCT_DATA;
   }
 
   addProduct() {
-
+    const dialogRef = this.dialog.open(AddProductDialogComponent);
+    dialogRef.afterClosed().subscribe((addedProduct: IProduct) => {
+      if (addedProduct) {
+        this.tableData.push({...addedProduct, id: Math.random() * 1000000}); // TODO: id generate
+        this.table.renderRows();
+      }
+    });
   }
 
-  productClick(row) {
-    console.log(row);
+  productClick(data: IProduct) {
+    const dialogRef = this.dialog.open(AddProductDialogComponent, {data});
+    dialogRef.afterClosed().subscribe((changedProduct: IProduct) => {
+      if (changedProduct) {
+        this.tableData.splice(
+          this.tableData.findIndex(prod => prod.id === changedProduct.id), 1, changedProduct
+        );
+        this.table.renderRows();
+      }
+    });
   }
 
-  deleteProduct(element, event: Event) {
+  deleteProduct(element: IProduct, event: Event) {
     event.stopPropagation();
-    console.log(element);
+    this.tableData.splice(this.tableData.findIndex(prod => prod.id === element.id), 1);
+    this.table.renderRows();
   }
 
 }

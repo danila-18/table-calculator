@@ -3,16 +3,25 @@ import { CommonModule } from '@angular/common';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
-import {MatButtonModule, MatIconModule, MatTableModule} from '@angular/material';
+import {MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatTableModule} from '@angular/material';
+import { AddProductDialogComponent } from './add-product-dialog/add-product-dialog.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [ProductsComponent],
+  declarations: [ProductsComponent, AddProductDialogComponent],
   imports: [
     CommonModule,
     ProductsRoutingModule,
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule
+  ],
+  entryComponents: [
+    AddProductDialogComponent
   ]
 })
 export class ProductsModule { }

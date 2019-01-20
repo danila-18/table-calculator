@@ -1,3 +1,18 @@
-<p>
-  add-product-dialog works!
-</p>
+<h2 mat-dialog-title>Добавить продукт</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="field">
+      <input matInput formControlName="title" type="text" placeholder="Наименование">
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput formControlName="price" type="number" placeholder="Цена">
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput formControlName="weight" type="number" placeholder="Кол-во">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Отмена</button>
+  <button mat-raised-button [mat-dialog-close]="form.value">{{ data ? 'Сохранить' : 'Добавить' }}</button>
+</mat-dialog-actions>
