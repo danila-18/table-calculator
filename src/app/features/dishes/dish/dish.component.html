@@ -1,3 +1,19 @@
-<p>
-  dish works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ dish.title }}</mat-card-title>
+    <mat-card-subtitle>{{ dish.description }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content [formGroup]="dishForm">
+    <ng-container *ngFor="let productForm of dishForm.controls">
+      <mat-select [formControl]="productForm.controls['product_id']" placeholder="Продукт">
+        <mat-option *ngFor="let productAll of productsAll" [value]="productAll.id">{{ productAll.title }}</mat-option>
+      </mat-select>
+    </ng-container>
+  </mat-card-content>
+  <mat-card-actions align="start">
+    <button mat-button (click)="onAction1">Action1</button>
+  </mat-card-actions>
+  <mat-card-footer>
+    Footer
+  </mat-card-footer>
+</mat-card>
