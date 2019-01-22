@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DishesRoutingModule } from './dishes-routing.module';
 import { DishesComponent } from './dishes.component';
-import {MatButtonModule, MatCardModule, MatIconModule, MatSelectModule, MatTableModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatSelectModule, MatTableModule} from '@angular/material';
 import { DishComponent } from './dish/dish.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -18,7 +18,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatSelectModule,
     MatCardModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule
   ]
 })
 export class DishesModule { }

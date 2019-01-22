@@ -4,16 +4,24 @@
     <mat-card-subtitle>{{ dish.description }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content [formGroup]="dishForm">
-    <ng-container *ngFor="let productForm of dishForm.controls">
-      <mat-select [formControl]="productForm.controls['product_id']" placeholder="Продукт">
-        <mat-option *ngFor="let productAll of productsAll" [value]="productAll.id">{{ productAll.title }}</mat-option>
-      </mat-select>
-    </ng-container>
+    <div *ngFor="let productForm of dishForm.controls">
+      <mat-form-field class="field">
+        <mat-select [formControl]="productForm.controls['product_id']" placeholder="Продукт">
+          <mat-option *ngFor="let productAll of productsAll" [value]="productAll.id">{{ productAll.title }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="field">
+        <input matInput [formControl]="productForm.controls['amount']" type="number" placeholder="Количество">
+      </mat-form-field>
+    </div>
   </mat-card-content>
-  <mat-card-actions align="start">
-    <button mat-button (click)="onAction1">Action1</button>
+  <mat-card-actions align="end">
+    <button mat-raised-button (click)="onSave()">Сохранить</button>
+    <button mat-raised-button (click)="onCancel()">Отмена</button>
   </mat-card-actions>
   <mat-card-footer>
     Footer
   </mat-card-footer>
 </mat-card>
+
+{{ dishForm.value | json }}

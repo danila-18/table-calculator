@@ -8,7 +8,7 @@ export const DISH_TITLES: IDish[] = [
   {dish_id: 5, title: 'Оливье4', description: 'Блюдо из майонеза8'}
 ];
 
-export const DISH_RELATION: IDishRelation[] = [
+export const DISH_RELATIONS: IDishRelation[] = [
   {id: 1, dish_id: 1, product_id: 1, amount: 0.5},
   {id: 2, dish_id: 1, product_id: 2, amount: 0.2},
   {id: 3, dish_id: 1, product_id: 3, amount: 1.3},
