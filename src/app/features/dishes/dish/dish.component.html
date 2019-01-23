@@ -14,14 +14,14 @@
         <input matInput [formControl]="productForm.controls['amount']" type="number" placeholder="Количество">
       </mat-form-field>
     </div>
+    <div class="control">
+      <button mat-raised-button (click)="onAddProduct()">Добавить продукт</button>
+    </div>
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-raised-button (click)="onSave()">Сохранить</button>
     <button mat-raised-button (click)="onCancel()">Отмена</button>
   </mat-card-actions>
-  <mat-card-footer>
-    Footer
-  </mat-card-footer>
 </mat-card>
 
 {{ dishForm.value | json }}

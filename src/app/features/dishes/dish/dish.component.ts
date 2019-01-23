@@ -34,8 +34,6 @@ export class DishComponent implements OnInit {
         return <IDishProduct>{...d, ...this.productsAll.find(p => p.id === d.product_id)};
       });
 
-    console.log(this.products);
-
     this.dishForm = new FormArray(
       this.products.map(prod => {
         return new FormGroup({
@@ -44,24 +42,6 @@ export class DishComponent implements OnInit {
         });
       })
     );
-
-    /*this.products = <IDishProduct[]>DISH_RELATIONS
-      .filter(dish => dish.dish_id === dishID)
-      .map(dish =>
-        (<IDishProduct>{
-          ...this.productsAll.find(prod => prod.id === dish.product_id),
-          ...dish,
-          ...this.dishTitles.find(d => d.dish_id === dish.id)
-        }));
-    console.log(this.products);
-    this.dishForm = new FormArray(
-      this.products.map(prod => {
-        return new FormGroup({
-          product_id: new FormControl(prod.id),
-          amount: new FormControl(prod.amount)
-        });
-      })
-    );*/
   }
 
   onSave() {
@@ -70,6 +50,15 @@ export class DishComponent implements OnInit {
 
   onCancel() {
 
+  }
+
+  onAddProduct() {
+    this.dishForm.controls.push(
+      new FormGroup({
+        product_id: new FormControl(),
+        amount: new FormControl()
+      })
+    );
   }
 
 }
