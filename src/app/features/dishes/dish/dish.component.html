@@ -1,10 +1,18 @@
-<mat-card>
+<mat-card [formGroup]="dishForm" *ngIf="dishForm">
   <mat-card-header>
-    <mat-card-title>{{ dish.title }}</mat-card-title>
-    <mat-card-subtitle>{{ dish.description }}</mat-card-subtitle>
+    <mat-card-title>
+      <mat-form-field>
+        <input matInput [formControl]="dishForm.controls['title']" type="text" placeholder="Наименование" required>
+      </mat-form-field>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <mat-form-field>
+        <input matInput [formControl]="dishForm.controls['description']" type="text" placeholder="Описание">
+      </mat-form-field>
+    </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content [formGroup]="dishForm">
-    <div *ngFor="let productForm of dishForm.controls">
+  <mat-card-content>
+    <div *ngFor="let productForm of dishForm.controls['dishes'].controls">
       <mat-form-field class="field">
         <mat-select [formControl]="productForm.controls['product_id']" placeholder="Продукт">
           <mat-option *ngFor="let productAll of productsAll" [value]="productAll.id">{{ productAll.title }}</mat-option>
