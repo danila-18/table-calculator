@@ -23,7 +23,7 @@ export const BANQUETS_TABLE: IBanquet[] = [
   {id: 5, date: '12-12-2012', description: 'Застолье всех местных55', price: 3290, title: 'Название для застолья'},
 ];
 
-export const BANQUETS_RELATION: IBanquetRelation[] = [
+export const BANQUETS_RELATIONS: IBanquetRelation[] = [
   {id: 1, banquet_id: 1, dish_id: 1, dish_amount: 4},
   {id: 2, banquet_id: 1, dish_id: 2, dish_amount: 1},
   {id: 3, banquet_id: 1, dish_id: 3, dish_amount: 3},

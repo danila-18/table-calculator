@@ -1,0 +1,26 @@
+<mat-card [formGroup]="bFrom">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-form-field>
+        <input matInput [formControl]="bFrom.controls['title']" type="text" placeholder="Наименование" required>
+      </mat-form-field>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <mat-form-field>
+        <input matInput [formControl]="bFrom.controls['description']" type="text" placeholder="Описание" required>
+      </mat-form-field>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngFor="let formBanquet of bFrom.controls['dishes'].controls">
+      <mat-form-field class="field">
+        <mat-select [formControl]="formBanquet.controls['banquet_id']" placeholder="Продукт">
+          <mat-option *ngFor="let dish of allDishes" [value]="dish.dish_id">{{ dish.title }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button (click)="onSaveBanquet()">Action1</button>
+  </mat-card-actions>
+</mat-card>

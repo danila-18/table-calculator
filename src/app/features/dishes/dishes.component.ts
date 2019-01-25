@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 export const DISH_TITLES: IDish[] = [
   {dish_id: 1, title: 'Оливье', description: 'Блюдо из майонеза'},
@@ -57,7 +58,7 @@ export class DishesComponent implements OnInit {
   ];
   colNames = [...this.columns.map(col => col.colName), 'delete'];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {

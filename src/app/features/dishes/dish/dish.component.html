@@ -27,9 +27,7 @@
     </div>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-raised-button (click)="onSave()">Сохранить</button>
+    <button mat-raised-button [disabled]="dishForm.invalid" (click)="onSave()">Сохранить</button>
     <button mat-raised-button (click)="onCancel()">Отмена</button>
   </mat-card-actions>
 </mat-card>
-
-{{ dishForm.value | json }}

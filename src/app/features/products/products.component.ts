@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IColumn} from '../dishes/dishes.component';
 import {AddProductDialogComponent} from './add-product-dialog/add-product-dialog.component';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatTable} from '@angular/material';
+import {MatDialog, MatTable} from '@angular/material';
 
 export interface IProduct {
   id: number;
