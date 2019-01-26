@@ -12,7 +12,7 @@ export interface IBanquetRelation {
   id: number;
   banquet_id: number;
   dish_id: number;
-  dish_amount: number;
+  dish_count: number;
 }
 
 export const BANQUETS_TABLE: IBanquet[] = [
@@ -24,11 +24,11 @@ export const BANQUETS_TABLE: IBanquet[] = [
 ];
 
 export const BANQUETS_RELATIONS: IBanquetRelation[] = [
-  {id: 1, banquet_id: 1, dish_id: 1, dish_amount: 4},
-  {id: 2, banquet_id: 1, dish_id: 2, dish_amount: 1},
-  {id: 3, banquet_id: 1, dish_id: 3, dish_amount: 3},
-  {id: 4, banquet_id: 2, dish_id: 5, dish_amount: 6},
-  {id: 5, banquet_id: 2, dish_id: 3, dish_amount: 4},
+  {id: 1, banquet_id: 1, dish_id: 1, dish_count: 4},
+  {id: 2, banquet_id: 1, dish_id: 2, dish_count: 1},
+  {id: 3, banquet_id: 1, dish_id: 3, dish_count: 3},
+  {id: 4, banquet_id: 2, dish_id: 5, dish_count: 6},
+  {id: 5, banquet_id: 2, dish_id: 3, dish_count: 4},
 ];
 
 @Component({

@@ -7,16 +7,19 @@
     </mat-card-title>
     <mat-card-subtitle>
       <mat-form-field>
-        <input matInput [formControl]="bFrom.controls['description']" type="text" placeholder="Описание" required>
+        <input matInput [formControl]="bFrom.controls['description']" type="text" placeholder="Описание">
       </mat-form-field>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div *ngFor="let formBanquet of bFrom.controls['dishes'].controls">
       <mat-form-field class="field">
-        <mat-select [formControl]="formBanquet.controls['banquet_id']" placeholder="Продукт">
+        <mat-select [formControl]="formBanquet.controls['dish_id']" placeholder="Продукт">
           <mat-option *ngFor="let dish of allDishes" [value]="dish.dish_id">{{ dish.title }}</mat-option>
         </mat-select>
+      </mat-form-field>
+      <mat-form-field class="field">
+        <input matInput [formControl]="formBanquet.controls['dish_count']" type="number" placeholder="Количество">
       </mat-form-field>
     </div>
   </mat-card-content>

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {BANQUETS_RELATIONS, BANQUETS_TABLE, IBanquet} from '../banquets.component';
-import {DISH_RELATIONS, DISH_TITLES} from '../../dishes/dishes.component';
+import {BANQUETS_RELATIONS, BANQUETS_TABLE, IBanquet, IBanquetRelation} from '../banquets.component';
+import {DISH_RELATIONS, DISH_TITLES, IDish} from '../../dishes/dishes.component';
 
-export const BANQUETS = [
+export interface IBanquetDishes extends IDish, IBanquetRelation {
+}
 
-];
 
 @Component({
   selector: 'app-banquet',
@@ -15,11 +15,12 @@ export const BANQUETS = [
 })
 export class BanquetComponent implements OnInit {
 
-  bFrom: FormGroup;
   allBanquets = BANQUETS_TABLE;
   banquetsRelations = BANQUETS_RELATIONS;
-  banquet: IBanquet;
   allDishes = DISH_TITLES;
+  bFrom: FormGroup;
+  banquet: IBanquet;
+  banquetDishes: IBanquetDishes[] = [];
 
   constructor(private activatedRoute: ActivatedRoute) {
   }
@@ -29,14 +30,20 @@ export class BanquetComponent implements OnInit {
     const banquetID = Number(this.activatedRoute.snapshot.params.banquetID);
     this.banquet = this.allBanquets.find(b => b.id === banquetID);
 
+    this.banquetDishes = <IBanquetDishes[]>this.banquetsRelations
+      .filter(b => b.banquet_id === banquetID)
+      .map(banquet => {
+        return <IBanquetDishes>{...banquet, ...this.allDishes.find(dish => dish.dish_id === banquet.dish_id)};
+      }) || [];
+
     this.bFrom = new FormGroup({
       title: new FormControl(this.banquet.title),
       description: new FormControl(this.banquet.description),
       dishes: new FormArray([
-        new FormGroup({
-          banquet_id: new FormControl(1),
-          count: new FormControl(1)
-        })
+        ...this.banquetDishes.map(banquetDish => new FormGroup({
+          dish_id: new FormControl(banquetDish.dish_id),
+          dish_count: new FormControl(banquetDish.dish_count)
+        }))
       ])
     });
   }
