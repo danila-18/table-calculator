@@ -24,8 +24,9 @@ export class DishComponent implements OnInit {
   }
 
   ngOnInit() {
-    const dishID = this.activatedRoute.snapshot.params.dish_id;
-    if (typeof dishID === 'number') {
+    let dishID = this.activatedRoute.snapshot.params.dish_id;
+    if (Number(dishID) > 0) {
+      dishID = Number(dishID);
       this.dish = DISH_TITLES.find(dish => dish.dish_id === dishID);
       this.products = <IDishProduct[]>this.dishRelations
         .filter(d => d.dish_id === dishID)

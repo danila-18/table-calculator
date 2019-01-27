@@ -1,4 +1,4 @@
-<button mat-raised-button (click)="addProduct()"> Добавить </button>
+<button mat-raised-button routerLink="new"> Добавить </button>
 
 <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
   <ng-container [matColumnDef]="column.colName" *ngFor="let column of columns">

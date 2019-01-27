@@ -30,3 +30,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 * {
   font-family: 'Helvetica';
 }
+
+.mat-card-header-text {
+  width: 100%;
+}

@@ -18,7 +18,7 @@ export class BanquetComponent implements OnInit {
   allBanquets = BANQUETS_TABLE;
   banquetsRelations = BANQUETS_RELATIONS;
   allDishes = DISH_TITLES;
-  bFrom: FormGroup;
+  banquetForm: FormGroup;
   banquet: IBanquet;
   banquetDishes: IBanquetDishes[] = [];
 
@@ -26,30 +26,48 @@ export class BanquetComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.activatedRoute.snapshot.params.banquetID);
-    const banquetID = Number(this.activatedRoute.snapshot.params.banquetID);
-    this.banquet = this.allBanquets.find(b => b.id === banquetID);
+    let banquetID = this.activatedRoute.snapshot.params.banquetID;
 
-    this.banquetDishes = <IBanquetDishes[]>this.banquetsRelations
-      .filter(b => b.banquet_id === banquetID)
-      .map(banquet => {
-        return <IBanquetDishes>{...banquet, ...this.allDishes.find(dish => dish.dish_id === banquet.dish_id)};
-      }) || [];
+    if (Number(banquetID > 0)) {
+      banquetID = Number(banquetID);
+      this.banquet = this.allBanquets.find(b => b.id === banquetID);
 
-    this.bFrom = new FormGroup({
-      title: new FormControl(this.banquet.title),
-      description: new FormControl(this.banquet.description),
-      dishes: new FormArray([
-        ...this.banquetDishes.map(banquetDish => new FormGroup({
-          dish_id: new FormControl(banquetDish.dish_id),
-          dish_count: new FormControl(banquetDish.dish_count)
-        }))
-      ])
-    });
+      this.banquetDishes = <IBanquetDishes[]>this.banquetsRelations
+        .filter(b => b.banquet_id === banquetID)
+        .map(banquet => {
+          return <IBanquetDishes>{...banquet, ...this.allDishes.find(dish => dish.dish_id === banquet.dish_id)};
+        }) || [];
+
+      this.banquetForm = new FormGroup({
+        title: new FormControl(this.banquet.title),
+        description: new FormControl(this.banquet.description),
+        dishes: new FormArray([
+          ...this.banquetDishes.map(banquetDish => new FormGroup({
+            dish_id: new FormControl(banquetDish.dish_id),
+            dish_count: new FormControl(banquetDish.dish_count)
+          }))
+        ])
+      });
+    } else if (banquetID === 'new') {
+      this.banquetForm = new FormGroup({
+        title: new FormControl(''),
+        description: new FormControl(''),
+        dishes: new FormArray([])
+      });
+    }
   }
 
   onSaveBanquet() {
 
+  }
+
+  onAddDish() {
+    const newDish = new FormGroup({
+      dish_id: new FormControl(this.allDishes[0].dish_id),
+      dish_count: new FormControl(0)
+    });
+    newDish.setParent(this.banquetForm);
+    (<FormArray>this.banquetForm.controls['dishes']).push(newDish);
   }
 
 }

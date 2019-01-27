@@ -2,12 +2,12 @@
   <mat-card-header>
     <mat-card-title>
       <mat-form-field>
-        <input matInput [formControl]="dishForm.controls['title']" type="text" placeholder="Наименование" required>
+        <input matInput [formControl]="dishForm.controls['title']" type="text" placeholder="Наименование" required class="header-input">
       </mat-form-field>
     </mat-card-title>
     <mat-card-subtitle>
       <mat-form-field>
-        <input matInput [formControl]="dishForm.controls['description']" type="text" placeholder="Описание">
+        <input matInput [formControl]="dishForm.controls['description']" type="text" placeholder="Описание" class="header-input">
       </mat-form-field>
     </mat-card-subtitle>
   </mat-card-header>
@@ -22,12 +22,12 @@
         <input matInput [formControl]="productForm.controls['amount']" type="number" placeholder="Количество">
       </mat-form-field>
     </div>
-    <div class="control">
+    <div>
       <button mat-raised-button (click)="onAddProduct()">Добавить продукт</button>
     </div>
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-raised-button [disabled]="dishForm.invalid" (click)="onSave()">Сохранить</button>
-    <button mat-raised-button (click)="onCancel()">Отмена</button>
+    <button mat-raised-button routerLink="..">Отмена</button>
   </mat-card-actions>
 </mat-card>

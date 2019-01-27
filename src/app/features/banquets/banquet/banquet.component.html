@@ -1,18 +1,18 @@
-<mat-card [formGroup]="bFrom">
+<mat-card [formGroup]="banquetForm">
   <mat-card-header>
     <mat-card-title>
       <mat-form-field>
-        <input matInput [formControl]="bFrom.controls['title']" type="text" placeholder="Наименование" required>
+        <input matInput [formControl]="banquetForm.controls['title']" type="text" placeholder="Наименование" required class="header-input">
       </mat-form-field>
     </mat-card-title>
     <mat-card-subtitle>
       <mat-form-field>
-        <input matInput [formControl]="bFrom.controls['description']" type="text" placeholder="Описание">
+        <input matInput [formControl]="banquetForm.controls['description']" type="text" placeholder="Описание" class="header-input">
       </mat-form-field>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let formBanquet of bFrom.controls['dishes'].controls">
+    <div *ngFor="let formBanquet of banquetForm.controls['dishes'].controls">
       <mat-form-field class="field">
         <mat-select [formControl]="formBanquet.controls['dish_id']" placeholder="Продукт">
           <mat-option *ngFor="let dish of allDishes" [value]="dish.dish_id">{{ dish.title }}</mat-option>
@@ -22,8 +22,12 @@
         <input matInput [formControl]="formBanquet.controls['dish_count']" type="number" placeholder="Количество">
       </mat-form-field>
     </div>
+    <div>
+      <button mat-raised-button (click)="onAddDish()">Добавить блюдо</button>
+    </div>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-raised-button (click)="onSaveBanquet()">Action1</button>
+    <button mat-raised-button (click)="onSaveBanquet()" [disabled]="banquetForm.invalid">Сохранить</button>
+    <button mat-raised-button routerLink="..">Отмена</button>
   </mat-card-actions>
 </mat-card>

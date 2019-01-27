@@ -1,8 +1,12 @@
 mat-card-header {
-  min-width: 300px;
+  width: 100%;
 }
 
 .field {
   margin: 0 5%;
   width: 40%;
+}
+
+mat-form-field {
+  width: 100%;
 }
