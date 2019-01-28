@@ -54,6 +54,10 @@ export class DishComponent implements OnInit {
     }
   }
 
+  onDeleteProduct(index: number) {
+    (<FormArray>this.dishForm.controls['dishes']).removeAt(index);
+  }
+
   onSave() {
 
   }
