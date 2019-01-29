@@ -70,4 +70,8 @@ export class BanquetComponent implements OnInit {
     (<FormArray>this.banquetForm.controls['dishes']).push(newDish);
   }
 
+  onDeleteDish(i) {
+    (<FormArray>this.banquetForm.controls['dishes']).removeAt(i);
+  }
+
 }

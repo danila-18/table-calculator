@@ -12,7 +12,7 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let formBanquet of banquetForm.controls['dishes'].controls">
+    <div *ngFor="let formBanquet of banquetForm.controls['dishes'].controls; let i = index">
       <mat-form-field class="field">
         <mat-select [formControl]="formBanquet.controls['dish_id']" placeholder="Продукт">
           <mat-option *ngFor="let dish of allDishes" [value]="dish.dish_id">{{ dish.title }}</mat-option>
@@ -21,6 +21,7 @@
       <mat-form-field class="field">
         <input matInput [formControl]="formBanquet.controls['dish_count']" type="number" placeholder="Количество">
       </mat-form-field>
+      <button mat-raised-button (click)="onDeleteDish(i)">Удалить продукт</button>
     </div>
     <div>
       <button mat-raised-button (click)="onAddDish()">Добавить блюдо</button>
