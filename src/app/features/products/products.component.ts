@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {IColumn} from '../dishes/dishes.component';
 import {AddProductDialogComponent} from './add-product-dialog/add-product-dialog.component';
 import {MatDialog, MatTable} from '@angular/material';
+import {ProductsService} from './products.service';
 
 export interface IProduct {
   id: number;
@@ -45,10 +46,12 @@ export class ProductsComponent implements OnInit {
   colNames = [...this.columns.map(col => col.colName), 'delete'];
   @ViewChild('table') table: MatTable<IProduct>;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private productsService: ProductsService) { }
 
   ngOnInit() {
-    this.tableData = PRODUCT_DATA;
+    this.productsService.getProducts().subscribe((products: IProduct[]) => {
+      this.tableData = products;
+    });
   }
 
   addProduct() {
