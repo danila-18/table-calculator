@@ -3,13 +3,8 @@ import {IColumn} from '../dishes/dishes.component';
 import {AddProductDialogComponent} from './add-product-dialog/add-product-dialog.component';
 import {MatDialog, MatTable} from '@angular/material';
 import {ProductsService} from './products.service';
-
-export interface IProduct {
-  id: number;
-  title: string;
-  price: number;
-  weight: number;
-}
+import {IProduct} from './products.models';
+import {Observable} from 'rxjs';
 
 export const PRODUCT_DATA: IProduct[] = [
   {id: 1, price: 1, title: 'Hydrogen', weight: 1.0079},
@@ -28,6 +23,7 @@ export const PRODUCT_DATA: IProduct[] = [
 })
 export class ProductsComponent implements OnInit {
 
+  products$: Observable<IProduct[]>;
   tableData: IProduct[] = [];
   columns: IColumn[] = [
     {
@@ -49,9 +45,7 @@ export class ProductsComponent implements OnInit {
   constructor(public dialog: MatDialog, private productsService: ProductsService) { }
 
   ngOnInit() {
-    this.productsService.getProducts().subscribe((products: IProduct[]) => {
-      this.tableData = products;
-    });
+    this.products$ = this.productsService.getProducts();
   }
 
   addProduct() {

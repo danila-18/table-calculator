@@ -6,6 +6,7 @@ import { DishesComponent } from './dishes.component';
 import {MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatSelectModule, MatTableModule} from '@angular/material';
 import { DishComponent } from './dish/dish.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [DishesComponent, DishComponent],
@@ -19,7 +20,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule
   ]
 })
 export class DishesModule { }

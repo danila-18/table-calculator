@@ -1,22 +1,22 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IProduct} from './products.models';
-import {Observable} from 'rxjs';
 import {map} from 'rxjs/internal/operators';
+import {Observable} from 'rxjs';
+import {IDish} from './dishes.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
+export class DishService {
 
   private readonly api = 'http://demo0221204.mockable.io';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<IProduct[]> {
-    const url = `${this.api}/products`;
+  getDishes(): Observable<IDish[]> {
+    const url = `${this.api}/dishes`;
     return this.http.get(url).pipe(
-      map(products => <IProduct[]>products)
+      map(dishes => <IDish[]>dishes)
     );
   }
 }

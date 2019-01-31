@@ -1,13 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-
-export const DISH_TITLES: IDish[] = [
-  {dish_id: 1, title: 'Оливье', description: 'Блюдо из майонеза'},
-  {dish_id: 2, title: 'Оливье1', description: 'Блюдо из майонеза5'},
-  {dish_id: 3, title: 'Оливье2', description: 'Блюдо из майонеза6'},
-  {dish_id: 4, title: 'Оливье3', description: 'Блюдо из майонеза7'},
-  {dish_id: 5, title: 'Оливье4', description: 'Блюдо из майонеза8'}
-];
+import {DishService} from './dish.service';
+import {IDish} from './dishes.models';
+import {Observable} from 'rxjs';
 
 export const DISH_RELATIONS: IDishRelation[] = [
   {id: 1, dish_id: 1, product_id: 1, amount: 0.5},
@@ -19,12 +13,6 @@ export const DISH_RELATIONS: IDishRelation[] = [
   {id: 7, dish_id: 3, product_id: 2, amount: 0.9},
   {id: 8, dish_id: 3, product_id: 5, amount: 3.1}
 ];
-
-export interface IDish {
-  dish_id: number;
-  title: string;
-  description: string;
-}
 
 export interface IColumn {
   colName: string;
@@ -45,7 +33,7 @@ export interface IDishRelation {
 })
 export class DishesComponent implements OnInit {
 
-  tableData: IDish[] = [];
+  dishes$: Observable<IDish[]>;
   columns = [
     {
       colName: 'title',
@@ -58,11 +46,11 @@ export class DishesComponent implements OnInit {
   ];
   colNames = [...this.columns.map(col => col.colName), 'delete'];
 
-  constructor(private router: Router) {
+  constructor(private dishService: DishService) {
   }
 
   ngOnInit() {
-    this.tableData = DISH_TITLES;
+    this.dishes$ = this.dishService.getDishes();
   }
 
   addProduct() {
