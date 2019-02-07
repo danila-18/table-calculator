@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'table-calc-front';
+
+  constructor(private http: HttpClient) {
+    this.http.get('http://tblcalcapi.plastic-planet.ru/').subscribe(data => {
+      console.log(data);
+    });
+  }
 }

@@ -15,7 +15,7 @@
     <div *ngFor="let productForm of dishForm.controls['dishes'].controls; let i = index">
       <mat-form-field class="field">
         <mat-select [formControl]="productForm.controls['product_id']" placeholder="Продукт">
-          <mat-option *ngFor="let productAll of productsAll" [value]="productAll.id">{{ productAll.title }}</mat-option>
+          <mat-option *ngFor="let productAll of productsAll" [value]="productAll.product_id">{{ productAll.title }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="field">

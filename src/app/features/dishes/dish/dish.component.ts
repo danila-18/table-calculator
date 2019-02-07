@@ -36,7 +36,7 @@ export class DishComponent implements OnInit {
           this.products = <IDishProduct[]>this.dishRelations
             .filter(d => d.dish_id === +dishID) // Attention! dishRelation has number type dish_id
             .map(d => {
-              return <IDishProduct>{...d, ...this.productsAll.find(p => p.id === d.product_id)};
+              return <IDishProduct>{...d, ...this.productsAll.find(p => p.product_id === d.dish_id)};
             });
           this.dishForm = new FormGroup({
             title: new FormControl(this.dish.title),
@@ -50,7 +50,6 @@ export class DishComponent implements OnInit {
               })
             )
           });
-          debugger;
         });
       });
     } else if (dishID === 'new') {
@@ -76,7 +75,7 @@ export class DishComponent implements OnInit {
 
   onAddProduct() {
     const newProduct = new FormGroup({
-      product_id: new FormControl(this.productsAll[0].id),
+      product_id: new FormControl(this.productsAll[0].product_id),
       amount: new FormControl(0)
     });
     newProduct.setParent(this.dishForm);

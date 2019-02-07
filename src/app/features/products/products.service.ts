@@ -9,14 +9,21 @@ import {map} from 'rxjs/internal/operators';
 })
 export class ProductsService {
 
-  private readonly api = 'http://demo0221204.mockable.io';
+  private readonly api = 'http://tblcalcapi.plastic-planet.ru';
 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<IProduct[]> {
-    const url = `${this.api}/products`;
+    const url = `${this.api}/products.php`;
     return this.http.get(url).pipe(
       map(products => <IProduct[]>products)
+    );
+  }
+
+  updateProduct(changedProduct: IProduct): Observable<IProduct> { // TODO: GET params!
+    const url = `${this.api}/product.php?action=update&product_id=${changedProduct.product_id}`;
+    return this.http.post(url, changedProduct).pipe(
+      map(product => <IProduct>product)
     );
   }
 }
