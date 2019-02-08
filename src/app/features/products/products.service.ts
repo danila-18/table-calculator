@@ -26,4 +26,18 @@ export class ProductsService {
       map(product => <IProduct>product)
     );
   }
+
+  addProduct(addedProduct: IProduct): Observable<IProduct> {
+    const url = `${this.api}/product.php?action=add`;
+    return this.http.post(url, addedProduct).pipe(
+      map(product => <IProduct>product)
+    );
+  }
+
+  deleteProduct(product_id: number): Observable<boolean> {
+    const url = `${this.api}/product.php?action=delete&product_id=${product_id}`;
+    return this.http.get(url).pipe(
+      map(result => <boolean>result)
+    );
+  }
 }

@@ -11,7 +11,7 @@ import {IProduct} from '../products.models';
 export class AddProductDialogComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
-    id: new FormControl(),
+    product_id: new FormControl(),
     title: new FormControl(),
     price: new FormControl(),
     weight: new FormControl(),

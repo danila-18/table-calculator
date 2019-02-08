@@ -47,14 +47,21 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.products$ = this.productsService.getProducts();
+    this.products$.subscribe(products => {
+      this.tableData = products;
+    });
   }
 
   addProduct() {
     const dialogRef = this.dialog.open(AddProductDialogComponent);
     dialogRef.afterClosed().subscribe((addedProduct: IProduct) => {
       if (addedProduct) {
-        this.tableData.push({...addedProduct, product_id: Math.random() * 1000000}); // TODO: product_id generate
-        this.table.renderRows();
+        this.productsService.addProduct(addedProduct).pipe(
+          tap(product => {
+            this.tableData.push(product);
+            this.table.renderRows();
+          })
+        ).subscribe();
       }
     });
   }
@@ -77,8 +84,14 @@ export class ProductsComponent implements OnInit {
 
   deleteProduct(element: IProduct, event: Event) {
     event.stopPropagation();
-    this.tableData.splice(this.tableData.findIndex(prod => prod.product_id === element.product_id), 1);
-    this.table.renderRows();
+    this.productsService.deleteProduct(element.product_id).pipe(
+      tap((result) => {
+        if (result) {
+          this.tableData.splice(this.tableData.findIndex(prod => prod.product_id === element.product_id), 1);
+          this.table.renderRows();
+        }
+      })
+    ).subscribe();
   }
 
 }

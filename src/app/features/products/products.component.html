@@ -1,6 +1,6 @@
 <button mat-raised-button (click)="addProduct()"> Добавить </button>
 
-<table mat-table [dataSource]="products$ | async" #table>
+<table mat-table [dataSource]="tableData" #table>
   <ng-container [matColumnDef]="column.colName" *ngFor="let column of columns">
     <th mat-header-cell *matHeaderCellDef> {{column.colTitle}} </th>
     <td mat-cell *matCellDef="let element"> {{element[column.colName]}} </td>
