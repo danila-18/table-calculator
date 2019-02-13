@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DISH_RELATIONS, IDishRelation} from '../dishes.component';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {IProduct} from '../../products/products.models';
 import {DishService} from '../dish.service';
 import {IDish} from '../dishes.models';
 import {ProductsService} from '../../products/products.service';
+import {tap} from 'rxjs/internal/operators';
 
 interface IDishProduct extends IProduct, IDishRelation {
 }
@@ -23,12 +24,18 @@ export class DishComponent implements OnInit {
   productsAll: IProduct[] = [];
   dishRelations = DISH_RELATIONS;
 
-  constructor(private activatedRoute: ActivatedRoute, private dishService: DishService, private productsService: ProductsService) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private dishService: DishService,
+              private productsService: ProductsService,
+              private router: Router) {
   }
 
   ngOnInit() {
     const dishID = this.activatedRoute.snapshot.params.dish_id;
     if (Number(dishID) > 0) {
+      this.dishService.getDish(dishID).subscribe(a => {
+        console.log(a);
+      });
       this.dishService.getDishes().subscribe((dishes: IDish[]) => { // TODO: Refactoring
         this.productsService.getProducts().subscribe((products: IProduct[]) => {
           this.productsAll = products;
@@ -39,12 +46,13 @@ export class DishComponent implements OnInit {
               return <IDishProduct>{...d, ...this.productsAll.find(p => p.product_id === d.dish_id)};
             });
           this.dishForm = new FormGroup({
+            dish_id: new FormControl(this.dish.dish_id),
             title: new FormControl(this.dish.title),
             description: new FormControl(this.dish.description),
             dishes: new FormArray(
               this.products.map(prod => {
                 return new FormGroup({
-                  product_id: new FormControl(prod.product_id),
+                  product_id: new FormControl(String(prod.product_id)),
                   amount: new FormControl(prod.amount)
                 });
               })
@@ -54,6 +62,7 @@ export class DishComponent implements OnInit {
       });
     } else if (dishID === 'new') {
       this.dishForm = new FormGroup({
+        dish_id: new FormControl(),
         title: new FormControl(),
         description: new FormControl(),
         dishes: new FormArray([])
@@ -66,7 +75,13 @@ export class DishComponent implements OnInit {
   }
 
   onSave() {
-
+    console.log(this.dishForm.value);
+    this.dishService.saveDish(this.dishForm.value).pipe(
+      tap(() => {
+        console.log('asdf');
+        this.router.navigate(['/dishes']);
+      })
+    ).subscribe();
   }
 
   onCancel() {
