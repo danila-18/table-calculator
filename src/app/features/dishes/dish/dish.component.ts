@@ -7,6 +7,7 @@ import {DishService} from '../dish.service';
 import {IDish} from '../dishes.models';
 import {ProductsService} from '../../products/products.service';
 import {tap} from 'rxjs/internal/operators';
+import {Observable} from 'rxjs';
 
 interface IDishProduct extends IProduct, IDishRelation {
 }
@@ -21,8 +22,7 @@ export class DishComponent implements OnInit {
   products: IDishProduct[] = [];
   dish: IDish;
   dishForm: FormGroup;
-  productsAll: IProduct[] = [];
-  dishRelations = DISH_RELATIONS;
+  productsAll: IProduct[];
 
   constructor(private activatedRoute: ActivatedRoute,
               private dishService: DishService,
@@ -32,32 +32,22 @@ export class DishComponent implements OnInit {
 
   ngOnInit() {
     const dishID = this.activatedRoute.snapshot.params.dish_id;
+    this.productsService.getProducts().subscribe(products => this.productsAll = products);
     if (Number(dishID) > 0) {
-      this.dishService.getDish(dishID).subscribe(a => {
-        console.log(a);
-      });
-      this.dishService.getDishes().subscribe((dishes: IDish[]) => { // TODO: Refactoring
-        this.productsService.getProducts().subscribe((products: IProduct[]) => {
-          this.productsAll = products;
-          this.dish = dishes.find(dish => dish.dish_id === dishID);
-          this.products = <IDishProduct[]>this.dishRelations
-            .filter(d => d.dish_id === +dishID) // Attention! dishRelation has number type dish_id
-            .map(d => {
-              return <IDishProduct>{...d, ...this.productsAll.find(p => p.product_id === d.dish_id)};
-            });
-          this.dishForm = new FormGroup({
-            dish_id: new FormControl(this.dish.dish_id),
-            title: new FormControl(this.dish.title),
-            description: new FormControl(this.dish.description),
-            dishes: new FormArray(
-              this.products.map(prod => {
-                return new FormGroup({
-                  product_id: new FormControl(String(prod.product_id)),
-                  amount: new FormControl(prod.amount)
-                });
-              })
-            )
-          });
+      this.dishService.getDish(dishID).subscribe(dish => {
+        this.dish = dish;
+        this.dishForm = new FormGroup({
+          dish_id: new FormControl(this.dish.dish_id),
+          title: new FormControl(this.dish.title),
+          description: new FormControl(this.dish.description),
+          dishes: new FormArray(
+            this.dish.products.map(prod => {
+              return new FormGroup({
+                product_id: new FormControl(String(prod.product_id)),
+                amount: new FormControl(prod.amount)
+              });
+            })
+          )
         });
       });
     } else if (dishID === 'new') {
@@ -75,17 +65,11 @@ export class DishComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.dishForm.value);
     this.dishService.saveDish(this.dishForm.value).pipe(
       tap(() => {
-        console.log('asdf');
         this.router.navigate(['/dishes']);
       })
     ).subscribe();
-  }
-
-  onCancel() {
-
   }
 
   onAddProduct() {

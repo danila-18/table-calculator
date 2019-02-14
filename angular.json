@@ -65,7 +65,7 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "table-calc-front:build:production"
+              "browserTarget": "table-calc-front:build:development"
             }
           }
         },

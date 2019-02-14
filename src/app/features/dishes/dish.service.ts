@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/internal/operators';
 import {Observable} from 'rxjs';
-import {IDish, IDishFull} from './dishes.models';
+import {IDish} from './dishes.models';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +20,17 @@ export class DishService {
     );
   }
 
-  saveDish(dish: IDishFull): Observable<IDish[]> {
+  saveDish(dish: IDish): Observable<IDish> {
     const url = `${this.api}/dish_relation.php?action=update`;
-    return this.http.post(url, dish);
+    return this.http.post(url, dish).pipe(
+      map(dishes => <IDish>dishes)
+    );
   }
 
-  getDish(dish_id: number): Observable<IDishFull> {
+  getDish(dish_id: number): Observable<IDish> {
     const url = `${this.api}/dish_relation.php?action=get&dish_id=${dish_id}`;
     return this.http.get(url).pipe(
-      map(dishes => <IDish[]>dishes)
+      map(dishe => <IDish>dishe)
     );
   }
 }

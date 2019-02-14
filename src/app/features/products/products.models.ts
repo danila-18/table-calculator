@@ -4,3 +4,7 @@ export interface IProduct {
   price: number;
   weight: number;
 }
+
+export interface IDishProduct extends IProduct {
+  amount: number;
+}
