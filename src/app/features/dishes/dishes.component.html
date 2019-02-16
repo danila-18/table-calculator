@@ -1,6 +1,6 @@
-<button mat-raised-button routerLink="new"> Добавить </button>
+<button mat-raised-button (click)="addDish()"> Добавить </button>
 
-<table mat-table [dataSource]="dishes$ | async" class="mat-elevation-z8">
+<table mat-table [dataSource]="dishes" class="mat-elevation-z8">
   <ng-container [matColumnDef]="column.colName" *ngFor="let column of columns">
     <th mat-header-cell *matHeaderCellDef> {{column.colTitle}} </th>
     <td mat-cell *matCellDef="let element"> {{element[column.colName]}} </td>
@@ -9,7 +9,7 @@
   <ng-container matColumnDef="delete" stickyEnd>
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      <mat-icon (click)="deleteProduct(element, $event)">cancel</mat-icon>
+      <mat-icon (click)="deleteDish(element.dish_id, $event)">cancel</mat-icon>
     </td>
   </ng-container>
 

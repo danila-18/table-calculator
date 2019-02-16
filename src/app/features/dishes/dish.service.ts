@@ -30,7 +30,25 @@ export class DishService {
   getDish(dish_id: number): Observable<IDish> {
     const url = `${this.api}/dish_relation.php?action=get&dish_id=${dish_id}`;
     return this.http.get(url).pipe(
-      map(dishe => <IDish>dishe)
+      map(dish => <IDish>dish)
+    );
+  }
+
+  addDish(): Observable<IDish> {
+    const url = `${this.api}/dishes.php?action=add`;
+    const cleanDish = {
+      title: 'Новое блюдо',
+      description: 'Описание'
+    };
+    return this.http.post(url, cleanDish).pipe(
+      map(dish => <IDish>dish)
+    );
+  }
+
+  deleteDish(dish_id): Observable<IDish[]> {
+    const url = `${this.api}/dishes.php?action=delete&dish_id=${dish_id}`;
+    return this.http.get(url).pipe(
+      map(dishes => <IDish[]>dishes)
     );
   }
 }

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DishService} from './dish.service';
 import {IDish} from './dishes.models';
-import {Observable} from 'rxjs';
+import {tap} from 'rxjs/internal/operators';
+import {Router} from '@angular/router';
 
 export const DISH_RELATIONS: IDishRelation[] = [
   {id: 1, dish_id: 1, product_id: 1, amount: 0.5},
@@ -33,7 +34,7 @@ export interface IDishRelation {
 })
 export class DishesComponent implements OnInit {
 
-  dishes$: Observable<IDish[]>;
+  dishes: IDish[] = [];
   columns = [
     {
       colName: 'title',
@@ -46,24 +47,25 @@ export class DishesComponent implements OnInit {
   ];
   colNames = [...this.columns.map(col => col.colName), 'delete'];
 
-  constructor(private dishService: DishService) {
+  constructor(private dishService: DishService,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.dishes$ = this.dishService.getDishes();
+    this.dishService.getDishes().subscribe(dishes => this.dishes = dishes);
   }
 
-  addProduct() {
-
-  }
-
-  productClick(row) {
-    console.log(row);
-  }
-
-  deleteProduct(element, event: Event) {
+  deleteDish(dish_id: number, event: Event) {
     event.stopPropagation();
-    console.log(element);
+    this.dishService.deleteDish(dish_id).pipe(
+      tap(dishes => this.dishes = dishes)
+    ).subscribe();
+  }
+
+  addDish() {
+    this.dishService.addDish().pipe(
+      tap((dish: IDish) => this.router.navigate(['/dishes', dish.dish_id]))
+    ).subscribe();
   }
 
 }
