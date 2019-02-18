@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BanquetsService} from './banquets.service';
 
 export interface IBanquet {
   id: number;
@@ -39,6 +40,7 @@ export const BANQUETS_RELATIONS: IBanquetRelation[] = [
 export class BanquetsComponent implements OnInit {
 
   tableData: IBanquet[] = [];
+  banquets: IBanquet[] = [];
   columns = [
     {
       colName: 'title',
@@ -59,24 +61,12 @@ export class BanquetsComponent implements OnInit {
   ];
   colNames = [...this.columns.map(col => col.colName), 'delete'];
 
-  constructor() {
+  constructor(private banquetsService: BanquetsService) {
   }
 
   ngOnInit() {
     this.tableData = BANQUETS_TABLE;
-  }
-
-  addProduct() {
-
-  }
-
-  productClick(row) {
-    console.log(row);
-  }
-
-  deleteProduct(element, event: Event) {
-    event.stopPropagation();
-    console.log(element);
+    this.banquetsService.getBanquets().subscribe(banquets => this.banquets = banquets);
   }
 
 }
