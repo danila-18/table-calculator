@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BanquetsService} from './banquets.service';
 
 export interface IBanquet {
-  id: number;
+  banquet_id: number;
   title: string;
   date: string;
   description: string;
@@ -17,11 +17,11 @@ export interface IBanquetRelation {
 }
 
 export const BANQUETS_TABLE: IBanquet[] = [
-  {id: 1, date: '12-12-2012', description: 'Застолье всех местных22', price: 3500, title: 'Название для застолья'},
-  {id: 2, date: '12-12-2012', description: 'Застолье всех местных2', price: 2512, title: 'Название для застолья'},
-  {id: 3, date: '12-12-2012', description: 'Застолье всех местных3', price: 4545, title: 'Название для застолья'},
-  {id: 4, date: '12-12-2012', description: 'Застолье всех местных4', price: 9045, title: 'Название для застолья'},
-  {id: 5, date: '12-12-2012', description: 'Застолье всех местных55', price: 3290, title: 'Название для застолья'},
+  {banquet_id: 1, date: '12-12-2012', description: 'Застолье всех местных22', price: 3500, title: 'Название для застолья'},
+  {banquet_id: 2, date: '12-12-2012', description: 'Застолье всех местных2', price: 2512, title: 'Название для застолья'},
+  {banquet_id: 3, date: '12-12-2012', description: 'Застолье всех местных3', price: 4545, title: 'Название для застолья'},
+  {banquet_id: 4, date: '12-12-2012', description: 'Застолье всех местных4', price: 9045, title: 'Название для застолья'},
+  {banquet_id: 5, date: '12-12-2012', description: 'Застолье всех местных55', price: 3290, title: 'Название для застолья'},
 ];
 
 export const BANQUETS_RELATIONS: IBanquetRelation[] = [
@@ -65,7 +65,6 @@ export class BanquetsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tableData = BANQUETS_TABLE;
     this.banquetsService.getBanquets().subscribe(banquets => this.banquets = banquets);
   }
 

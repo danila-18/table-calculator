@@ -19,4 +19,11 @@ export class BanquetsService {
       map(banquets => <IBanquet[]>banquets)
     );
   }
+
+  getBanquet(banquet_id: number): Observable<IBanquet> {
+    const url = `${this.api}/banquets_relation.php?action=get&banquet_id=${banquet_id}`;
+    return this.http.get(url).pipe(
+      map(banquet => <IBanquet>banquet)
+    );
+  }
 }

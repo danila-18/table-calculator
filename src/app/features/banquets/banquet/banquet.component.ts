@@ -4,6 +4,7 @@ import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {BANQUETS_RELATIONS, BANQUETS_TABLE, IBanquet, IBanquetRelation} from '../banquets.component';
 import {DishService} from '../../dishes/dish.service';
 import {IDish} from '../../dishes/dishes.models';
+import {BanquetsService} from '../banquets.service';
 
 export interface IBanquetDishes extends IDish, IBanquetRelation {
 }
@@ -23,17 +24,35 @@ export class BanquetComponent implements OnInit {
   banquetDishes: IBanquetDishes[] = [];
   dishes: IDish[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private dishService: DishService) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private banquetsService: BanquetsService,
+              private dishService: DishService) {
   }
 
   ngOnInit() {
     let banquetID = this.activatedRoute.snapshot.params.banquetID;
 
-    if (Number(banquetID > 0)) {
+    this.banquetsService.getBanquet(banquetID).subscribe(banquet => {
+      this.banquet = banquet;
+      this.banquetForm = new FormGroup({
+        title: new FormControl(banquet.title),
+        description: new FormControl(banquet.description),
+        dishes: new FormArray([
+          ...banquet.dishes.map(banquetDish => new FormGroup({
+            dish_id: new FormControl(banquetDish.dish_id),
+            dish_count: new FormControl(banquetDish.dish_count)
+          }))
+        ])
+      });
+    });
+    this.dishService.getDishes().subscribe(
+      dishes => this.dishes = dishes
+    );
+    /*if (Number(banquetID > 0)) {
       this.dishService.getDishes().subscribe((dishes: IDish[]) => {
         this.dishes = dishes;
         banquetID = Number(banquetID);
-        this.banquet = this.allBanquets.find(b => b.id === banquetID);
+        this.banquet = this.allBanquets.find(b => b.banquet_id === banquetID);
 
         this.banquetDishes = <IBanquetDishes[]>this.banquetsRelations
           .filter(b => b.banquet_id === banquetID)
@@ -58,7 +77,7 @@ export class BanquetComponent implements OnInit {
         description: new FormControl(''),
         dishes: new FormArray([])
       });
-    }
+    }*/
   }
 
   onSaveBanquet() {

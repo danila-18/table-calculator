@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DISH_RELATIONS, IDishRelation} from '../dishes.component';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {IProduct} from '../../products/products.models';
 import {DishService} from '../dish.service';
 import {IDish} from '../dishes.models';
 import {ProductsService} from '../../products/products.service';
 import {tap} from 'rxjs/internal/operators';
-import {Observable} from 'rxjs';
+import {IDishRelation} from '../dishes.component';
 
 interface IDishProduct extends IProduct, IDishRelation {
 }

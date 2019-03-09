@@ -1,3 +1,5 @@
+{{ banquetFull | json }}
+
 <mat-card [formGroup]="banquetForm" *ngIf="banquetForm">
   <mat-card-header>
     <mat-card-title>
@@ -15,7 +17,7 @@
     <div *ngFor="let formBanquet of banquetForm.controls['dishes'].controls; let i = index">
       <mat-form-field class="field">
         <mat-select [formControl]="formBanquet.controls['dish_id']" placeholder="Продукт">
-          <mat-option *ngFor="let dish of allDishes" [value]="dish.dish_id">{{ dish.title }}</mat-option>
+          <mat-option *ngFor="let dish of dishes" [value]="dish.dish_id">{{ dish.title }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="field">
