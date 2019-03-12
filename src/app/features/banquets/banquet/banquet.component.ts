@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {BANQUETS_RELATIONS, BANQUETS_TABLE, IBanquet, IBanquetRelation} from '../banquets.component';
 import {DishService} from '../../dishes/dish.service';
@@ -26,15 +26,17 @@ export class BanquetComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private banquetsService: BanquetsService,
-              private dishService: DishService) {
+              private dishService: DishService,
+              private router: Router) {
   }
 
   ngOnInit() {
-    let banquetID = this.activatedRoute.snapshot.params.banquetID;
+    const banquetID = this.activatedRoute.snapshot.params.banquetID;
 
     this.banquetsService.getBanquet(banquetID).subscribe(banquet => {
       this.banquet = banquet;
       this.banquetForm = new FormGroup({
+        banquet_id: new FormControl(banquet.banquet_id),
         title: new FormControl(banquet.title),
         description: new FormControl(banquet.description),
         dishes: new FormArray([
@@ -81,7 +83,9 @@ export class BanquetComponent implements OnInit {
   }
 
   onSaveBanquet() {
-
+    this.banquetsService.saveBanquet(this.banquetForm.value).subscribe(banquet => {
+      this.router.navigateByUrl('/banquets');
+    });
   }
 
   onAddDish() {

@@ -26,4 +26,11 @@ export class BanquetsService {
       map(banquet => <IBanquet>banquet)
     );
   }
+
+  saveBanquet(banquetValue: IBanquet): Observable<IBanquet> {
+    const url = `${this.api}/banquets_relation.php?action=update&banquet_id=${banquetValue.banquet_id}`;
+    return this.http.post(url, banquetValue).pipe(
+      map(banquet => <IBanquet>banquet)
+    );
+  }
 }

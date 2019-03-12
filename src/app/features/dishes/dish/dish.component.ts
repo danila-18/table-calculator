@@ -39,7 +39,7 @@ export class DishComponent implements OnInit {
           dish_id: new FormControl(this.dish.dish_id),
           title: new FormControl(this.dish.title),
           description: new FormControl(this.dish.description),
-          dishes: new FormArray(
+          products: new FormArray(
             this.dish.products.map(prod => {
               return new FormGroup({
                 product_id: new FormControl(String(prod.product_id)),
@@ -54,13 +54,13 @@ export class DishComponent implements OnInit {
         dish_id: new FormControl(),
         title: new FormControl(),
         description: new FormControl(),
-        dishes: new FormArray([])
+        products: new FormArray([])
       });
     }
   }
 
   onDeleteProduct(index: number) {
-    (<FormArray>this.dishForm.controls['dishes']).removeAt(index);
+    (<FormArray>this.dishForm.controls['products']).removeAt(index);
   }
 
   onSave() {
@@ -77,7 +77,7 @@ export class DishComponent implements OnInit {
       amount: new FormControl(0)
     });
     newProduct.setParent(this.dishForm);
-    (<FormArray>this.dishForm.controls['dishes']).push(newProduct);
+    (<FormArray>this.dishForm.controls['products']).push(newProduct);
   }
 
 }

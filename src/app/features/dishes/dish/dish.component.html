@@ -12,7 +12,7 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let productForm of dishForm.controls['dishes'].controls; let i = index">
+    <div *ngFor="let productForm of dishForm.controls['products'].controls; let i = index">
       <mat-form-field class="field">
         <mat-select [formControl]="productForm.controls['product_id']" placeholder="Продукт">
           <mat-option *ngFor="let productAll of productsAll" [value]="productAll.product_id">{{ productAll.title }}</mat-option>
