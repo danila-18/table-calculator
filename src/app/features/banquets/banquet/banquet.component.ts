@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {BANQUETS_RELATIONS, BANQUETS_TABLE, IBanquet, IBanquetRelation} from '../banquets.component';
+import {IBanquet, IBanquetRelation} from '../banquets.component';
 import {DishService} from '../../dishes/dish.service';
 import {IDish} from '../../dishes/dishes.models';
 import {BanquetsService} from '../banquets.service';
@@ -17,11 +17,8 @@ export interface IBanquetDishes extends IDish, IBanquetRelation {
 })
 export class BanquetComponent implements OnInit {
 
-  allBanquets = BANQUETS_TABLE;
-  banquetsRelations = BANQUETS_RELATIONS;
   banquetForm: FormGroup;
   banquet: IBanquet;
-  banquetDishes: IBanquetDishes[] = [];
   dishes: IDish[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -32,54 +29,32 @@ export class BanquetComponent implements OnInit {
 
   ngOnInit() {
     const banquetID = this.activatedRoute.snapshot.params.banquetID;
-
-    this.banquetsService.getBanquet(banquetID).subscribe(banquet => {
-      this.banquet = banquet;
-      this.banquetForm = new FormGroup({
-        banquet_id: new FormControl(banquet.banquet_id),
-        title: new FormControl(banquet.title),
-        description: new FormControl(banquet.description),
-        dishes: new FormArray([
-          ...banquet.dishes.map(banquetDish => new FormGroup({
-            dish_id: new FormControl(banquetDish.dish_id),
-            dish_count: new FormControl(banquetDish.dish_count)
-          }))
-        ])
-      });
-    });
-    this.dishService.getDishes().subscribe(
-      dishes => this.dishes = dishes
-    );
-    /*if (Number(banquetID > 0)) {
-      this.dishService.getDishes().subscribe((dishes: IDish[]) => {
-        this.dishes = dishes;
-        banquetID = Number(banquetID);
-        this.banquet = this.allBanquets.find(b => b.banquet_id === banquetID);
-
-        this.banquetDishes = <IBanquetDishes[]>this.banquetsRelations
-          .filter(b => b.banquet_id === banquetID)
-          .map(banquet => {
-            return <IBanquetDishes>{...banquet, ...dishes.find(dish => dish.dish_id === banquet.dish_id)};
-          }) || [];
-
+    if (Number(banquetID > 0)) {
+      this.banquetsService.getBanquet(banquetID).subscribe(banquet => {
+        this.banquet = banquet;
         this.banquetForm = new FormGroup({
-          title: new FormControl(this.banquet.title),
-          description: new FormControl(this.banquet.description),
+          banquet_id: new FormControl(banquet.banquet_id),
+          title: new FormControl(banquet.title),
+          description: new FormControl(banquet.description),
           dishes: new FormArray([
-            ...this.banquetDishes.map(banquetDish => new FormGroup({
+            ...banquet.dishes.map(banquetDish => new FormGroup({
               dish_id: new FormControl(banquetDish.dish_id),
               dish_count: new FormControl(banquetDish.dish_count)
             }))
-          ])
+          ]),
+          date: new FormControl(banquet.date)
         });
       });
     } else if (banquetID === 'new') {
       this.banquetForm = new FormGroup({
         title: new FormControl(''),
         description: new FormControl(''),
-        dishes: new FormArray([])
+        dishes: new FormArray([]),
+        date: new FormControl(new Date())
       });
-    }*/
+    }
+
+    this.dishService.getDishes().subscribe(dishes => this.dishes = dishes);
   }
 
   onSaveBanquet() {

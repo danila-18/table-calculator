@@ -11,6 +11,11 @@
       <mat-form-field>
         <input matInput [formControl]="banquetForm.controls['description']" type="text" placeholder="Описание" class="header-input">
       </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Дата" [formControl]="banquetForm.controls['date']">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
